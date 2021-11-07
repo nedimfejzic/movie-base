@@ -6,27 +6,51 @@ import {
   selectAllseries,
 } from "../features/movies/moviesSlice";
 import Loader from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 const SeriesList = () => {
   const series = useSelector(selectAllSeries);
-  const loadingMsg = useSelector(loadingSeries);
+  const status = useSelector(loadingSeries);
 
-  let response = (
-    <div className="grid place-items-center h-screen">
-      <Loader type="TailSpin" color="#6366F1" height={150} width={150} />
-    </div>
-  );
+  let response = "";
 
-  if (loadingMsg === "finished") {
-    console.log("series STATUS", series);
-    if (series.Response === "False") {
-      response = (
-        <div>
-          <p>Error</p>
-          <p className="text-red-400">{series.Error}</p>
+  if (status === "loading" || Object.keys(series).length === 0) {
+    response = (
+      <div className="container bg-white w-full mx-auto mt-4 p-2 sm:p-4 sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none ">
+        <div className="h-52 sm:h-full sm:w-72 rounded-xl bg-gray-200 animate-pulse"></div>
+        <div className="flex flex-col flex-1 gap-5 sm:p-2">
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="flex">
+              <div className="bg-gray-200 w-20 animate-pulse h-8 rounded-2xl "></div>
+              <div className="bg-gray-200 w-20 animate-pulse h-8 rounded-2xl ml-2"></div>
+              <div className="bg-gray-200 w-20 animate-pulse h-8 rounded-2xl ml-2"></div>
+            </div>
+            <div className="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+            <div className="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+            <div className="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+            <div className="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+          </div>
+          <div className="mt-auto flex gap-3">
+            <div className="bg-gray-200 w-20 h-8 animate-pulse rounded-full"></div>
+            <div className="bg-gray-200 w-20 h-8 animate-pulse rounded-full"></div>
+            <div className="bg-gray-200 w-20 h-8 animate-pulse rounded-full ml-auto"></div>
+          </div>
         </div>
-      );
-    } else {
+      </div>
+    );
+  }
+
+  if (status === "error" || series.Response === "False") {
+    response = (
+      <div>
+        <p>Error</p>
+        <p className="text-red-400">{series.Error}</p>
+      </div>
+    );
+  }
+
+  if (status === "finished" && Object.keys(series).length > 0) {
+    {
       response = (
         <div>
           <div className="flex flex-wrap -mx-1 overflow-hidden container p-2">
@@ -55,7 +79,10 @@ const SeriesList = () => {
                       {serie.Title}
                     </h1>
                     <div className="flex items-center flex-wrap">
-                      <a className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">
+                      <Link
+                        to={`/movie/${serie.imdbID}`}
+                        className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0"
+                      >
                         Learn More
                         <svg
                           className="w-4 h-4 ml-2"
@@ -69,7 +96,7 @@ const SeriesList = () => {
                           <path d="M5 12h14"></path>
                           <path d="M12 5l7 7-7 7"></path>
                         </svg>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

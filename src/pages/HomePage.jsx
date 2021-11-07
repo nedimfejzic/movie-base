@@ -20,6 +20,7 @@ const HomePage = () => {
     <div className="container mx-auto">
       <h3 className="text-2xl pl-3 text-indigo-500">Movies:</h3>
       <MoviesList />
+
       <h3 className="text-2xl pl-3 text-indigo-500">Series:</h3>
 
       <SeriesList />
