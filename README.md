@@ -1,8 +1,6 @@
 <br />
 <div align="center">
-  <a href="https://i.imgur.com/R7aBCWG.png">
-    <img src="images/logo.png" alt="Logo" width="878" height="255">
-  </a>
+![](logo.gif)
 
 <h3 align="center">MovieBase 🎞️🍿</h3>
 </div>
