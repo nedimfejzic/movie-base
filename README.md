@@ -1,6 +1,6 @@
 <br />
 <div align="center">
-![](logo.gif)
+![Project logo](logo.gif)
 
 <h3 align="center">MovieBase 🎞️🍿</h3>
 </div>
@@ -9,7 +9,7 @@
 
 ## About The Project
 
-![](Animation.gif)
+![Project GIF](Animation.gif)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
