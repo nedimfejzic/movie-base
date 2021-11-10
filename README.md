@@ -1,8 +1,11 @@
 <br />
 <div align="center">
-![Project logo](logo.gif)
+![Project logo](logo.png)
 
 <h3 align="center">MovieBase 🎞️🍿</h3>
+
+[🔗🔗 Published app: ](https://movies-db-3c507.web.app/)
+
 </div>
 
 <!-- ABOUT THE PROJECT -->
@@ -10,7 +13,6 @@
 ## About The Project
 
 ![Project GIF](Animation.gif)
-[URL 🔗🔗](https://movies-db-3c507.web.app/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
