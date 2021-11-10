@@ -10,6 +10,7 @@
 ## About The Project
 
 ![Project GIF](Animation.gif)
+[URL 🔗🔗](https://movies-db-3c507.web.app/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
