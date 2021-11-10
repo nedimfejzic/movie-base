@@ -1,11 +1,8 @@
 import { useSelector } from "react-redux";
-import {
-  loading,
-  loadingMovies,
-  selectAllMovies,
-} from "../features/movies/moviesSlice";
-import Loader from "react-loader-spinner";
+import { loadingMovies, selectAllMovies } from "../features/movies/moviesSlice";
 import { Link } from "react-router-dom";
+import ErrorComponent from "./ErrorComponent";
+import poster from "../poster.png";
 
 const MovieList = () => {
   const movies = useSelector(selectAllMovies);
@@ -14,20 +11,33 @@ const MovieList = () => {
   let response = "";
 
   if (loadingMsg === "loading") {
-    response = (
-      <div className="grid place-items-center h-screen">
-        <Loader type="TailSpin" color="#6366F1" height={150} width={150} />
+    return (response = (
+      <div className="container bg-white w-full mx-auto mt-4 p-2 sm:p-4 sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none ">
+        <div className="h-52 sm:h-full sm:w-72 rounded-xl bg-gray-200 animate-pulse"></div>
+        <div className="flex flex-col flex-1 gap-5 sm:p-2">
+          <div className="flex flex-1 flex-col gap-3">
+            <div className="flex">
+              <div className="bg-gray-200 w-20 animate-pulse h-8 rounded-2xl "></div>
+              <div className="bg-gray-200 w-20 animate-pulse h-8 rounded-2xl ml-2"></div>
+              <div className="bg-gray-200 w-20 animate-pulse h-8 rounded-2xl ml-2"></div>
+            </div>
+            <div className="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+            <div className="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+            <div className="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+            <div className="bg-gray-200 w-full animate-pulse h-3 rounded-2xl"></div>
+          </div>
+          <div className="mt-auto flex gap-3">
+            <div className="bg-gray-200 w-20 h-8 animate-pulse rounded-full"></div>
+            <div className="bg-gray-200 w-20 h-8 animate-pulse rounded-full"></div>
+            <div className="bg-gray-200 w-20 h-8 animate-pulse rounded-full ml-auto"></div>
+          </div>
+        </div>
       </div>
-    );
+    ));
   }
 
   if (loadingMsg === "error" || movies.Response === "False") {
-    response = (
-      <div>
-        <p>Error</p>
-        <p className="text-red-400">{movies.Error}</p>
-      </div>
-    );
+    return (response = <ErrorComponent errorMessage={movies.Error} />);
   }
 
   if (loadingMsg === "finished" && Object.keys(movies).length > 0) {
@@ -44,6 +54,10 @@ const MovieList = () => {
                   className="lg:h-auto md:h-36 w-full object-cover object-center"
                   src={movie.Poster}
                   alt={movie.Title}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = poster;
+                  }}
                 />
                 <div className="p-6">
                   <div className="flex justify-between">

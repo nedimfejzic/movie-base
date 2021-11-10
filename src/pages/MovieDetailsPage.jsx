@@ -5,6 +5,7 @@ import { useParams } from "react-router";
 import {
   fetchSingleMovieOrSeriesDetailAsync,
   loadingMovies,
+  removeSelectedMovieOrShow,
   singleMovieOrSeries,
 } from "../features/movies/moviesSlice";
 import { AiFillStar } from "react-icons/ai";
@@ -17,6 +18,10 @@ const MovieDetailsPage = () => {
 
   useEffect(() => {
     dispatch(fetchSingleMovieOrSeriesDetailAsync(imdbID));
+
+    return () => {
+      dispatch(removeSelectedMovieOrShow());
+    };
   }, [dispatch, imdbID]);
 
   let movieDetail = "";

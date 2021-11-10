@@ -1,6 +1,26 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  fetchMoviesAsync,
+  fetchSeriesAsync,
+} from "../features/movies/moviesSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    if (searchTerm.length < 4) {
+      alert("Please enter more than 3 charaters.");
+      return;
+    }
+    dispatch(fetchMoviesAsync(searchTerm));
+    dispatch(fetchSeriesAsync(searchTerm));
+  };
+
   return (
     <header className="text-gray-600 body-font">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -22,26 +42,29 @@ const Header = () => {
           </svg>
           <span className="ml-3 text-xl">MovieBase</span>
         </Link>
-        <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <a className="mr-5 hover:text-gray-900">First Link</a>
-          <a className="mr-5 hover:text-gray-900">Second Link</a>
-          <a className="mr-5 hover:text-gray-900">Third Link</a>
-          <a className="mr-5 hover:text-gray-900">Fourth Link</a>
-        </nav>
-        <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-          Button
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            className="w-4 h-4 ml-1"
-            viewBox="0 0 24 24"
+        <div className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+          <form
+            onSubmit={submitHandler}
+            className="flex flex-col md:flex-row w-full md:w-full max-w-sm md:space-x-3 space-y-3 md:space-y-0 justify-center"
           >
-            <path d="M5 12h14M12 5l7 7-7 7"></path>
-          </svg>
-        </button>
+            <div className="  ">
+              <input
+                minLength="3"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                type="text"
+                className=" rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
+                placeholder="Search for movie or show"
+              />
+            </div>
+            <button
+              className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-indigo-500 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200"
+              type="submit"
+            >
+              Search
+            </button>
+          </form>
+        </div>
       </div>
     </header>
   );

@@ -12,8 +12,7 @@ const initialState = {
 
 export const fetchMoviesAsync = createAsyncThunk(
   "movies/fetchMoviesAsync",
-  async () => {
-    const searchText = "Fast";
+  async (searchText = "Harry") => {
     const response = await movieApi
       .get(`?apiKey=${APIKey}&s=${searchText}&type=movie`)
       .catch((err) => {
@@ -25,8 +24,7 @@ export const fetchMoviesAsync = createAsyncThunk(
 
 export const fetchSeriesAsync = createAsyncThunk(
   "movies/fetchSeriesAsync",
-  async () => {
-    const searchText = "Fast";
+  async (searchText = "Harry") => {
     const response = await movieApi
       .get(`?apiKey=${APIKey}&s=${searchText}&type=series`)
       .catch((err) => {
@@ -38,13 +36,11 @@ export const fetchSeriesAsync = createAsyncThunk(
 export const fetchSingleMovieOrSeriesDetailAsync = createAsyncThunk(
   "movies/fetchSingleMovieOrSeriesDetailAsync",
   async (id) => {
-    const searchText = "Fast";
     const response = await movieApi
       .get(`?apiKey=${APIKey}&i=${id}&Plot=full`)
       .catch((err) => {
         console.log(err);
       });
-    console.log("SINGLE SHOW: ", response.data);
     return response.data;
   }
 );
@@ -56,10 +52,16 @@ export const moviesSlice = createSlice({
     setMovies: (state, { payload }) => {
       state.movieList = payload;
     },
+    removeSelectedMovieOrShow: (state) => {
+      state.singleMovieOrSeries = {};
+    },
   },
   extraReducers: {
     [fetchMoviesAsync.pending]: (state) => {
       return { ...state, statusMovies: "loading" };
+    },
+    [fetchSeriesAsync.pending]: (state) => {
+      return { ...state, statusSeries: "loading" };
     },
     [fetchMoviesAsync.fulfilled]: (state, { payload }) => {
       return { ...state, movieList: payload, statusMovies: "finished" };
@@ -68,7 +70,6 @@ export const moviesSlice = createSlice({
       console.log("Rejected");
     },
     [fetchSeriesAsync.fulfilled]: (state, { payload }) => {
-      console.log("Fetched data");
       return { ...state, seriesList: payload, statusSeries: "finished" };
     },
     [fetchSingleMovieOrSeriesDetailAsync.pending]: (state) => {
@@ -93,5 +94,5 @@ export const loadingMovies = (state) => state.movies.statusMovies;
 export const loadingSeries = (state) => state.movies.statusSeries;
 export const singleMovieOrSeries = (state) => state.movies.singleMovieOrSeries;
 
-export const { setMovies } = moviesSlice.actions;
+export const { setMovies, removeSelectedMovieOrShow } = moviesSlice.actions;
 export default moviesSlice.reducer;
